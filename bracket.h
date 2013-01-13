@@ -1,6 +1,8 @@
 class Bracket{
-	Team* teams;
+	int num_teams, rounds, byes, *results;
+	Team * teams;
 	public:
-		Bracket(){};
-		Bracket(Team*);
+		Bracket(int, Team *);
+		void play();
+		int * getResults();
 };

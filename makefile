@@ -12,3 +12,6 @@ team.o: team.cc team.h
 
 bracket.o: bracket.cc bracket.h
 	g++ -c bracket.cc
+
+make clean:
+	rm -f *o
