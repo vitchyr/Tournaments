@@ -1,6 +1,5 @@
 #include <iostream>
-//#include <stdlib.h>
-//#include <time.h>
+#include <stdlib.h>
 #include "team.h"
 using namespace std;
 
@@ -12,19 +11,17 @@ Team::Team(double _score){
 	score = _score;
 }
 
-bool Team::operator < (Team other) const{
-	/*
-	if ((*this).getScore() == other.getScore()){
-		srand(time(NULL));
-		return rand() % 2;
-	}*/
-	return (*this).getScore() < other.getScore();
+bool Team::operator < (Team other) const{ 
+	/* so far, no tie breaker system
+	 * do not use rand() here for a tie breaker. It will cause
+	 * a segmentation fault since this function is called from
+	 * sort() */
+	return this -> getScore() < other.getScore();
 }
 
 //assumes that there are 100 different skill ranges
 double Team::makeRScore(){
-	//return rand() % 100 / 100.0;
-	return 0.0;
+	return rand() % 100 / 100.0;
 }
 
 void Team::newRScore(){

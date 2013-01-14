@@ -1,6 +1,9 @@
+#define TRIALS 100000
+
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <fstream>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
@@ -14,7 +17,6 @@
 #define TYPE 1
 #define NUM_TYPES 1
 
-#define TRIALS 10000
 
 using namespace std;
 
@@ -22,7 +24,7 @@ Team ** makeTeams(int num_teams){
 	Team ** teams = new Team*[num_teams];
 	int i;
 	for (i = 0; i < num_teams; i++){
-		teams[i] = new Team(rand() % 100 / 100.0);
+		teams[i] = new Team;//(rand() % 100 / 100.0);
 		teams[i] -> setID(i);
 	}
 	return teams;
@@ -45,6 +47,7 @@ int * predict(Team ** teams, int num_teams){
 	}
 	return prediction;
 }
+
 
 void printResults(int * prediction, Team ** results, int num_teams){
 	cout << endl << "  ****  Results  ****  " << endl;
@@ -121,8 +124,14 @@ int main(){
 		//printResults(prediction, results, num_teams);
 		delete[] teams, prediction, results;
 	}
+	ofstream myfile;
+	myfile.open ("output.dat");
+	cout << "place\taccuracy\n";
+	myfile << "place\taccuracy\n";
 	cout.precision(ceil(log10((double) TRIALS)));
 	for(i=0; i<num_teams; i++){
-		cout << i << ": " << fixed << data[i] << endl;
+		cout << i+1 << "\t" << fixed << data[i] << endl;
+		myfile << i+1 << "\t" << fixed << data[i] << endl;
 	}
+	myfile.close();
 }
