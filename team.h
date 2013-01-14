@@ -1,6 +1,6 @@
 class Team{
 	double score;
-	int ID;
+	int ID, place, pred;
 	public:
 		Team();
 		Team(double);
@@ -9,5 +9,9 @@ class Team{
 		double getScore() const;
 		void setID(int);
 		int getID();
-		static Team * play(Team*, Team*);
+		static bool leftWins(Team*, Team*);
+		void setPlace(int);
+		int getPlace();
+		void setPred(int);
+		int getPred();
 };

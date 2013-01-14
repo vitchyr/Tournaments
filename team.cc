@@ -37,8 +37,24 @@ int Team::getID(){
 	return ID;
 }
 
-Team * Team::play(Team * one, Team * two){
+bool Team::leftWins(Team * one, Team * two){
 	if (*one < *two)
-		return two;
-	return one;
+		return false;
+	return true;
+}
+
+void Team::setPlace(int _place){
+	place = _place;
+}
+
+int Team::getPlace(){
+	return place;
+}
+
+void Team::setPred(int _pred){
+	pred = _pred;
+}
+
+int Team::getPred(){
+	return pred;
 }
