@@ -72,8 +72,7 @@ void Bracket::play(){
 			int j;
 			for (i=0; i < games_played; i++){
 				for (j=0; j < games_played; j++){
-					if (losers[i] -> getID() == 
-						lb_results[j] -> getID()){
+					if (losers[i] == lb_results[j]){
 						lb_results[j] -> setPlace(lb_results[j] -> 
 							getPlace() + games_played + byes);
 						/* games_played + byes = 

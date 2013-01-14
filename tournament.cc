@@ -1,4 +1,12 @@
-#define TRIALS 100000
+#define TRIALS 10000
+#define USER_INPUT 0
+#define TEAMS 20
+#define TYPE 1
+#define NUM_TYPES 1
+
+#define MANY_NUM 1
+#define MIN 3
+#define MAX 20
 
 #include <iostream>
 #include <string>
@@ -12,19 +20,13 @@
 #include "team.h"
 #include "bracket.h"
 
-#define USER_INPUT 0
-#define TEAMS 16
-#define TYPE 1
-#define NUM_TYPES 1
-
-
 using namespace std;
 
 Team ** makeTeams(int num_teams){
 	Team ** teams = new Team*[num_teams];
 	int i;
 	for (i = 0; i < num_teams; i++){
-		teams[i] = new Team;//(rand() % 100 / 100.0);
+		teams[i] = new Team();//(rand() % 100 / 100.0);
 		teams[i] -> setID(i);
 	}
 	return teams;
@@ -78,7 +80,7 @@ int main(){
 		cout << "	q - Quit" << endl;
 		getline (cin, mystr);
 		if (mystr == "q"){
-			break;
+			return 0;
 		}
 		stringstream(mystr) >> system;
 		if (system < NUM_TYPES || system > NUM_TYPES){
@@ -102,36 +104,46 @@ int main(){
 	delete[] teams, prediction, results;
 	*/
 
-	//Simulations
-	Team ** teams, ** results;
-	int i, *prediction;
-	double data[num_teams];
-	double add = 1.0/(double)TRIALS;
-	for (i=0; i<TRIALS; i++){
-		teams = makeTeams(num_teams);
-		prediction = predict(teams, num_teams);
-		if (system == 1){
-			Bracket tournament (num_teams, teams);
-			tournament.play();
-			results = tournament.getResults();
+#if MANY_NUM
+	for (num_teams = MIN; num_teams <= MAX; num_teams++){
+#endif
+		//Simulations
+		Team ** teams, ** results;
+		int i, *prediction;
+		double * data = new double[num_teams]();
+		double add = 1.0/(double)TRIALS;
+		for (i=0; i<TRIALS; i++){
+			teams = makeTeams(num_teams);
+			prediction = predict(teams, num_teams);
+			if (system == 1){
+				Bracket tournament (num_teams, teams);
+				tournament.play();
+				results = tournament.getResults();
+			}
+			int j;
+			for(j = 0; j<num_teams; j++){
+				if((results[j] -> getPlace() == 
+					results[j] -> getPred())){
+					data[j] += add;
+				}
+			}
+			//printResults(prediction, results, num_teams);
+			delete[] teams, prediction, results;
 		}
-		int j;
-		for(j = 0; j<num_teams; j++){
-			if((results[j] -> getPlace() == 
-				results[j] -> getPred()))
-				data[j] += add;
+		stringstream filename;
+		filename <<"output_"<<num_teams<<"teams_"<<TRIALS<<"trials"<<".dat";
+		ofstream myfile;
+		myfile.open(filename.str().c_str());
+		cout << "place\taccuracy\n";
+		myfile << "place\taccuracy\n";
+		cout.precision(ceil(log10((double) TRIALS)));
+		for(i=0; i<num_teams; i++){
+			cout << i+1 << "\t" << fixed << data[i] << endl;
+			myfile << i+1 << "\t" << fixed << data[i] << endl;
 		}
-		//printResults(prediction, results, num_teams);
-		delete[] teams, prediction, results;
+		myfile.close();
+		delete[] data;
+#if MANY_NUM
 	}
-	ofstream myfile;
-	myfile.open ("output.dat");
-	cout << "place\taccuracy\n";
-	myfile << "place\taccuracy\n";
-	cout.precision(ceil(log10((double) TRIALS)));
-	for(i=0; i<num_teams; i++){
-		cout << i+1 << "\t" << fixed << data[i] << endl;
-		myfile << i+1 << "\t" << fixed << data[i] << endl;
-	}
-	myfile.close();
+#endif
 }

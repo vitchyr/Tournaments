@@ -1,6 +1,9 @@
 #include <iostream>
 #include <stdlib.h>
 #include "team.h"
+
+#define LEVELS 1000
+
 using namespace std;
 
 Team::Team(){
@@ -16,12 +19,15 @@ bool Team::operator < (Team other) const{
 	 * do not use rand() here for a tie breaker. It will cause
 	 * a segmentation fault since this function is called from
 	 * sort() */
+	if (this -> getScore() == other.getScore()){
+		return ((this -> getID()) < other.getID());
+	}
 	return this -> getScore() < other.getScore();
 }
 
-//assumes that there are 100 different skill ranges
+//assumes that there are LEVEL different skill ranges
 double Team::makeRScore(){
-	return rand() % 100 / 100.0;
+	return rand() % LEVELS / (double) LEVELS;
 }
 
 void Team::newRScore(){
@@ -36,7 +42,7 @@ void Team::setID(int new_ID){
 	ID = new_ID;
 }
 
-int Team::getID(){
+int Team::getID() const{
 	return ID;
 }
 

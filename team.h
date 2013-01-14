@@ -9,7 +9,7 @@ class Team{
 		void newRScore();
 		double getScore() const;
 		void setID(int);
-		int getID();
+		int getID() const;
 		static bool leftWins(Team*, Team*);
 		void setPlace(int);
 		int getPlace();
