@@ -1,6 +1,6 @@
 #include <iostream>
-#include <stdlib.h>
-#include <time.h>
+//#include <stdlib.h>
+//#include <time.h>
 #include "team.h"
 using namespace std;
 
@@ -13,16 +13,22 @@ Team::Team(double _score){
 }
 
 bool Team::operator < (Team other) const{
+	/*
 	if ((*this).getScore() == other.getScore()){
-		srand ( time(NULL));
+		srand(time(NULL));
 		return rand() % 2;
-	}
+	}*/
 	return (*this).getScore() < other.getScore();
 }
 
 //assumes that there are 100 different skill ranges
 double Team::makeRScore(){
-	return rand() % 100 / 100.0;
+	//return rand() % 100 / 100.0;
+	return 0.0;
+}
+
+void Team::newRScore(){
+	score = makeRScore();
 }
 
 double Team::getScore() const{

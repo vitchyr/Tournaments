@@ -6,6 +6,7 @@ class Team{
 		Team(double);
 		bool operator < (Team) const;
 		double makeRScore();
+		void newRScore();
 		double getScore() const;
 		void setID(int);
 		int getID();
